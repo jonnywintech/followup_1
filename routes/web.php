@@ -7,4 +7,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('form', [FormData::class, 'store'])->name('form.store');
+Route::post('/form', [FormData::class, 'store'])->name('form.store');
