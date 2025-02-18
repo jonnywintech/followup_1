@@ -23,24 +23,55 @@ class FormData extends Model
             'price_per_item' => 'numeric'
         ]);
 
+        // dd(json_encode($validated_data));
+
         $current_date_time = Carbon::now()->toDateTimeString();
 
         $validated_data['update_date'] = $current_date_time;
 
-        $file = Storage::disk('public')->exists('data.json');
+        $file_exist = Storage::disk('public')->exists('data.json');
 
 
 
-        if(!$file){
-            Storage::disk('public')->put('data.json',json_encode([$validated_data]));
+        if (!$file_exist) {
+            Storage::disk('public')->put('data.json', json_encode([$validated_data]));
 
             return redirect()->back();
         }
 
-        dd($data = Storage::disk('public')->get('data.json'));
+        $file = Storage::disk('public')->get('data.json');
+
+        $array_of_items = json_decode($file, true);
 
 
+        $new_data = [];
+
+        $data_found = false;
+
+        foreach($array_of_items as $item){
+            if($item['item_name'] == $validated_data['item_name']){
+
+                $item['item_quantity'] += $validated_data['item_quantity'];
+                $item['price_per_item'] = $validated_data['price_per_item'];
+
+                $new_data[] = $item;
+
+                $data_found = true;
+                continue;
+            }
+
+            $new_data[] = $item;
+        }
+
+        if(!$data_found){
+            $new_data[] = $validated_data;
+        }
 
 
+    
+        Storage::disk('public')->put('data.json', json_encode($new_data));
+
+
+        return redirect()->back();
     }
 }

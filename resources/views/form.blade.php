@@ -3,8 +3,8 @@
         @csrf
         <div class="mb-3">
           <label for="item_name" class="form-label">item name</label>
-          <input type="email" class="form-control" name="item_name" id="item_name" aria-describedby="emailHelp">
-          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          <input type="text" class="form-control" name="item_name" id="item_name" aria-describedby="text">
+          <div id="text" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
           <label for="item_quantity" class="form-label">quantity</label>
